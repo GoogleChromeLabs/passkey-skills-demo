@@ -37,8 +37,8 @@ app.use(session({
   proxy: true,
   cookie:{
     httpOnly: true,
-    secure: true,
-    sameSite: 'none'
+    secure: process.env.IS_LOCAL ? false : true,
+    sameSite: process.env.IS_LOCAL ? undefined : 'none'
   }
 }));
 
@@ -51,7 +51,7 @@ app.use((req, res, next) => {
   } else {
     process.env.HOSTNAME = req.hostname;
   }
-  const protocol = /^localhost/.test(process.env.HOSTNAME) ? 'http' : 'https';
+  const protocol = process.env.IS_LOCAL ? 'http' : 'https';
   process.env.ORIGIN = `${protocol}://${process.env.HOSTNAME}${port ? `:${port}` : ''}`;
   process.env.RP_NAME = RP_NAME;
   if (
