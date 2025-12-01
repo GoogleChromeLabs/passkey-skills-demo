@@ -50,7 +50,20 @@ export default {
         ],
       },
       {
-        test: /components\.js$/,
+        test: /\.css$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'bundle-css.css',
+            },
+          },
+          { loader: 'extract-loader' },
+          { loader: 'css-loader' },
+        ],
+      },
+      {
+        test: /\.js$/,
       },
     ],
   },

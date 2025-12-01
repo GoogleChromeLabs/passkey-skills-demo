@@ -15,213 +15,197 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>{{title}}</title>
-    <meta name="description" content="{{title}}">
-    <link id="favicon" rel="icon" href="https://cdn.glitch.global/030c11e1-bda0-421f-b6eb-22ee1f359e54/favicon.svg?v=1677059219757" type="image/x-icon">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/bundle.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-    <script src="components-bundle.js"></script>
-  </head>
-  <body class="mdc-typography">
-    <mwc-top-app-bar-fixed>
-      <span slot="title">{{title}}</span>
-      <mwc-icon-button id="code" icon="code" slot="actionItems"></mwc-icon-button>
-    </mwc-top-app-bar-fixed>
-    <mwc-linear-progress id="progress"></mwc-linear-progress>
-    <main class="content center">
-      <h2>
-        Welcome, {{displayName}}!
-      </h2>
-      <section>
-        <h3>
-          Your name:
-        </h3>
-        <div id="display-name"></div>
-      </section>
-      <!-- TODO: Add an ability to create a passkey: Add placeholder HTML. -->
-      <section>
-        <h3 class="mdc-typography mdc-typography--headline6">
-          Your registered passkeys:
-        </h3>
-        <div id="list"></div>
-      </section>
-      <p id="message" class="instructions"></p>
-      <mwc-button id="create-passkey" class="hidden" icon="fingerprint" raised>Create a passkey</mwc-button>
-      <mwc-button><a href="/auth/signout">Sign out</a></mwc-button>
-    </main>
-    <script src="https://unpkg.com/material-components-web@13.0.0/dist/material-components-web.min.js"></script>
-    <script type="module">
-      // TODO: Add an ability to create a passkey: Create and register a passkey.
-      import {
-        $,
-        _fetch,
-        loading,
-        registerCredential,
-        updateCredential,
-        unregisterCredential
-      } from '/client.js';
-      import { html, render } from 'https://unpkg.com/lit-html@2.6.1/lit-html.js?module';
 
-      $('#code').addEventListener('click', e => {
-        location.href = 'https://glitch.com/edit/#!/{{project_name}}';
-      });
+<head>
+  <title>{{title}}</title>
+  <meta name="description" content="{{title}}">
+  <link id="favicon" rel="icon"
+    href="https://cdn.glitch.global/030c11e1-bda0-421f-b6eb-22ee1f359e54/favicon.svg?v=1677059219757"
+    type="image/x-icon">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/bundle.css">
+  <link rel="stylesheet" href="/bundle-css.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script src="components-bundle.js"></script>
+</head>
 
-      async function changeDisplayName(e) {
-        const newName = prompt('Enter a new display name', e.target.dataset.displayName);
-        if (newName) {
-          loading.start();
-          await _fetch('/auth/updateDisplayName', { newName });
-          loading.stop();
-          renderDisplayName();
-        }
+<body>
+  <mdui-top-app-bar style="position: relative;">
+    <mdui-top-app-bar-title>{{title}}</mdui-top-app-bar-title>
+    <a href="https://github.com/GoogleChromeLabs/passkeys-codelab"><mdui-button-icon icon="code"></mdui-button-icon></a>
+  </mdui-top-app-bar>
+  <mdui-linear-progress id="progress" class="hidden"></mdui-linear-progress>
+  <main class="content center">
+    <h2>
+      Welcome, {{displayName}}!
+    </h2>
+    <section>
+      <h3>
+        Your name:
+      </h3>
+      <div id="display-name"></div>
+    </section>
+    <!-- TODO: Add an ability to create a passkey: Add placeholder HTML. -->
+    <section>
+      <h3>
+        Your registered passkeys:
+      </h3>
+      <div id="list"></div>
+    </section>
+    <p id="message" class="instructions"></p>
+    <mdui-button id="create-passkey" icon="fingerprint" type="button">Create a passkey</mdui-button>
+    <a href="/auth/signout"><mdui-button type="button">Sign out</mdui-button></a>
+  </main>
+  <script type="module">
+    // TODO: Add an ability to create a passkey: Create and register a passkey.
+    import {
+      $,
+      _fetch,
+      loading,
+      registerCredential,
+      updateCredential,
+      unregisterCredential
+    } from '/client.js';
+    import { html, render } from 'https://unpkg.com/lit-html@2.6.1/lit-html.js?module';
+
+    async function changeDisplayName(e) {
+      const newName = prompt('Enter a new display name', e.target.dataset.displayName);
+      if (newName) {
+        loading.start();
+        await _fetch('/auth/updateDisplayName', { newName });
+        loading.stop();
+        renderDisplayName();
       }
+    }
 
-      async function renderDisplayName() {
-        const res = await _fetch('/auth/userinfo');
-        render(html`
-        <mwc-list>
-          <mwc-list-item>
-            <div class="list-item">
-              <div class="entity-name">
-                <span>${res.displayName || res.username}</span>
-              </div>
-              <div class="buttons">
-                <mwc-icon-button
-                  data-display-name="${res.displayName || res.username }"
-                  @click="${changeDisplayName}"
-                  title="Edit your display name"
-                  icon="edit"></mwc-icon-button>
-              </div>
-            </div>
-          </mwc-list-item>
-        <mwc-list>`, $('#display-name'));
-      };
+    async function renderDisplayName() {
+      const res = await _fetch('/auth/userinfo');
+      render(html`
+        <mdui-list>
+          <mdui-list-item>
+            ${res.displayName || res.username}
+            <mdui-button-icon data-name="${res.displayName || res.username}" title="Edit your display name" @click="${changeDisplayName}" icon="edit" slot="end-icon"></mdui-button-icon>
+          </mdui-list-item>
+        <mdui-list>`, $('#display-name'));
+    };
 
-      renderDisplayName();
+    renderDisplayName();
 
-      async function rename(e) {
-        const { credId, name } = e.target.dataset;
-        const newName = prompt('Enter a new credential name.', name);
-        if (newName.length === 0) return;
-        try {
-          loading.start();
-          await updateCredential(credId, newName);
-          loading.stop();
-          renderCredentials();
-        } catch (e) {
-          loading.stop();
-          console.error(e);
-          alert(e.message);
-        }
-      };
-
-      async function remove(e) {
-        if (!confirm('Do you really want to remove this credential?')) return;
-
-        try {
-          loading.start();
-          await unregisterCredential(e.target.dataset.credId);
-          loading.stop();
-          renderCredentials();
-        } catch (e) {
-          loading.stop();
-          console.error(e);
-          alert(e.message);
-        }
-      };
-
-      // TODO: Add an ability to create a passkey: Check for passkey support.
-
-      const createPasskey = $('#create-passkey');
-
-     // Is WebAuthn available in this browser?
-      if (window.PublicKeyCredential &&
-          PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable &&
-          PublicKeyCredential.isConditionalMediationAvailable) {
-        try {
-          // Is conditional UI available in this browser?
-          const results = await Promise.all([
-            PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(),
-            PublicKeyCredential.isConditionalMediationAvailable()
-          ]);
-          if (results.every(r => r === true)) {
-            // If conditional UI is available, reveal the Create a passkey button.
-            createPasskey.classList.remove('hidden');
-          } else {
-            // If conditional UI isn't available, show a message.
-            $('#message').innerText = 'This device does not support passkeys.';
-          }
-        } catch (e) {
-          console.error(e);
-        }
-      } else {
-        // If WebAuthn isn't available, show a message.
-        $('#message').innerText = 'This device does not support passkeys.';
+    async function rename(e) {
+      const { credId, name } = e.target.dataset;
+      const newName = prompt('Enter a new credential name.', name);
+      if (newName.length === 0) return;
+      try {
+        loading.start();
+        await updateCredential(credId, newName);
+        loading.stop();
+        renderCredentials();
+      } catch (e) {
+        loading.stop();
+        console.error(e);
+        alert(e.message);
       }
+    };
 
-      // TODO: Add an ability to create a passkey: Render registered passkeys in a list.
+    async function remove(e) {
+      if (!confirm('Do you really want to remove this credential?')) return;
 
-      async function renderCredentials() {
-        const res = await _fetch('/auth/getKeys');
-        const list = $('#list');
-        const creds = html`${res.length > 0 ? html`
-        <mwc-list>
+      try {
+        loading.start();
+        await unregisterCredential(e.target.dataset.credId);
+        loading.stop();
+        renderCredentials();
+      } catch (e) {
+        loading.stop();
+        console.error(e);
+        alert(e.message);
+      }
+    };
+
+    // TODO: Add an ability to create a passkey: Check for passkey support.
+
+    const createPasskey = $('#create-passkey');
+
+    // Is WebAuthn available in this browser?
+    if (window.PublicKeyCredential &&
+      PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable &&
+      PublicKeyCredential.isConditionalMediationAvailable) {
+      try {
+        // Is conditional UI available in this browser?
+        const results = await Promise.all([
+          PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable(),
+          PublicKeyCredential.isConditionalMediationAvailable()
+        ]);
+        if (results.every(r => r === true)) {
+          // If conditional UI is available, reveal the Create a passkey button.
+          createPasskey.classList.remove('hidden');
+        } else {
+          // If conditional UI isn't available, show a message.
+          $('#message').innerText = 'This device does not support passkeys.';
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      // If WebAuthn isn't available, show a message.
+      $('#message').innerText = 'This device does not support passkeys.';
+    }
+
+    // TODO: Add an ability to create a passkey: Render registered passkeys in a list.
+
+    async function renderCredentials() {
+      const res = await _fetch('/auth/getKeys');
+      const list = $('#list');
+      const creds = html`${res.length > 0 ? html`
+        <mdui-list>
           ${res.map(cred => html`
-            <mwc-list-item>
-              <div class="list-item">
-                <div class="entity-name">
-                  <span>${cred.name || 'Unnamed' }</span>
-                </div>
-                <div class="buttons">
-                  <mwc-icon-button data-cred-id="${cred.id}" data-name="${cred.name || 'Unnamed' }" @click="${rename}" icon="edit"></mwc-icon-button>
-                  <mwc-icon-button data-cred-id="${cred.id}" @click="${remove}" icon="delete"></mwc-icon-button>
-                </div>
-              </div>
-            </mwc-list-item>`)}
-        </mwc-list>` : html`
-        <mwc-list>
-          <mwc-list-item>No credentials found.</mwc-list-item>
-        </mwc-list>`}`;
-        render(creds, list);
-      };
+            <mdui-list-item>
+              ${cred.name || 'Unnamed'}
+              <mdui-button-icon data-cred-id="${cred.id}" data-name="${cred.name || 'Unnamed'}" @click="${rename}" icon="edit" slot="end-icon"></mdui-button-icon>
+              <mdui-button-icon data-cred-id="${cred.id}" @click="${remove}" icon="delete" slot="end-icon"></mdui-button-icon>
+            </mdui-list-item>`)}
+        </mdui-list>` : html`
+        <mdui-list>
+          <mdui-list-item>No credentials found.</mdui-list-item>
+        </mdui-list>`}`;
+      render(creds, list);
+    };
 
-      renderCredentials();
+    renderCredentials();
 
-      // TODO: Add an ability to create a passkey: Create and register a passkey.
+    // TODO: Add an ability to create a passkey: Create and register a passkey.
 
-      async function register() {
-        try {
-          // Start the loading UI.
-          loading.start();
-          // Start creating a passkey.
-          await registerCredential();
-          // Stop the loading UI.
-          loading.stop();
-          // Render the updated passkey list.
-          renderCredentials();
-        } catch (e) {
-          // Stop the loading UI.
-          loading.stop();
-          // An InvalidStateError indicates that a passkey already exists on the device.
-          if (e.name === 'InvalidStateError') {
-            alert('A passkey already exists for this device.');
+    async function register() {
+      try {
+        // Start the loading UI.
+        loading.start();
+        // Start creating a passkey.
+        await registerCredential();
+        // Stop the loading UI.
+        loading.stop();
+        // Render the updated passkey list.
+        renderCredentials();
+      } catch (e) {
+        // Stop the loading UI.
+        loading.stop();
+        // An InvalidStateError indicates that a passkey already exists on the device.
+        if (e.name === 'InvalidStateError') {
+          alert('A passkey already exists for this device.');
           // A NotAllowedError indicates the user canceled the operation.
-          } else if (e.name === 'NotAllowedError') {
-            return;
+        } else if (e.name === 'NotAllowedError') {
+          return;
           // Show other errors in an alert.
-          } else {
-            alert(e.message);
-            console.error(e);
-          }
+        } else {
+          alert(e.message);
+          console.error(e);
         }
-      };
+      }
+    };
 
-      createPasskey.addEventListener('click', register);
-    </script>
-  </body>
+    createPasskey.addEventListener('click', register);
+  </script>
+</body>
+
 </html>

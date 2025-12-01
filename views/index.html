@@ -15,80 +15,58 @@
 -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>{{title}}</title>
-    <meta name="description" content="{{title}}">
-    <link id="favicon" rel="icon" href="https://cdn.glitch.global/030c11e1-bda0-421f-b6eb-22ee1f359e54/favicon.svg?v=1677059219757" type="image/x-icon">
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/bundle.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
-    <script src="components-bundle.js"></script>
-  </head>
-  <body class="mdc-typography">
-    <mwc-top-app-bar-fixed>
-      <span slot="title">{{title}}</span>
-      <mwc-icon-button id="code" icon="code" slot="actionItems"></mwc-icon-button>
-    </mwc-top-app-bar-fixed>
-    <mwc-linear-progress id="progress"></mwc-linear-progress>
-    <main class="content center">
-      <h2>
-        Enter a username
-      </h2>
-      <form id="form" method="POST" action="/auth/username" class="center">
-        <div class="mdc-text-field mdc-text-field--filled">
-          <span class="mdc-text-field__ripple"></span>
-          <label class="mdc-floating-label" id="username-label">username</label>
-          <!-- TODO: Add passkeys to the browser autofill: Enable conditional UI. -->
-          <input
-           type="text"
-           id="username"
-           class="mdc-text-field__input"
-           aria-labelledby="username-label"
-           name="username"
-           autocomplete="username webauthn"
-           autofocus />
-          <span class="mdc-line-ripple"></span>
-        </div>
-        <div class="mdc-text-field mdc-text-field--filled hidden">
-          <span class="mdc-text-field__ripple"></span>
-          <label class="mdc-floating-label" id="password-label">password</label>
-          <input
-           type="password"
-           class="mdc-text-field__input"
-           aria-labelledby="password-label"
-           name="password"
-           autocomplete="current-password"
-           autofocus />
-          <span class="mdc-line-ripple"></span>
-        </div>
-        <p class="instructions">Any username can be accepted.</p>
-        <input type="submit" class="mdc-button mdc-button--raised" value="Next" />
-      </form>
-      <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
-      <script type="module">
-        // TODO: Add passkeys to the browser autofill: Detect features, invoke WebAuthn, and enable a conditional UI.
-        import {
-          $,
-          _fetch,
-          loading,
-          authenticate
-        } from '/client.js';
-        new mdc.textField.MDCTextField($('.mdc-text-field'));
 
-        $('#code').addEventListener('click', e => {
-          location.href = 'https://glitch.com/edit/#!/{{project_name}}';
-        });
+<head>
+  <title>{{title}}</title>
+  <meta name="description" content="{{title}}">
+  <link id="favicon" rel="icon"
+    href="https://cdn.glitch.global/030c11e1-bda0-421f-b6eb-22ee1f359e54/favicon.svg?v=1677059219757"
+    type="image/x-icon">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/bundle.css">
+  <link rel="stylesheet" href="/bundle-css.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <script src="components-bundle.js"></script>
+</head>
 
-        const form = $('#form');
-        form.addEventListener('submit', async s => {
-          s.preventDefault();
-          const form = new FormData(s.target);
-          const cred = {};
-          form.forEach((v, k) => cred[k] = v);
-          _fetch(s.target.action, cred)
+<body>
+  <mdui-top-app-bar style="position: relative;">
+    <mdui-top-app-bar-title>{{title}}</mdui-top-app-bar-title>
+    <a href="https://github.com/GoogleChromeLabs/passkeys-codelab"><mdui-button-icon icon="code"></mdui-button-icon></a>
+  </mdui-top-app-bar>
+  <mdui-linear-progress id="progress" class="hidden"></mdui-linear-progress>
+  <main class="content center">
+    <h2>
+      Enter a username
+    </h2>
+    <form id="form" method="POST" action="/auth/username" class="center">
+      <mdui-text-field id="username" label="Username" name="username" autocomplete="username webauthn"
+        autofocus></mdui-text-field>
+      <div class="hidden">
+        <mdui-text-field id="password" label="Password" type="password" name="password" autocomplete="current-password"
+          toggle-password autofocus></mdui-text-field>
+      </div>
+      <p class="instructions">Any username can be accepted.</p>
+      <mdui-button type="submit" value="Next">Next</mdui-button>
+    </form>
+    <script type="module">
+      // TODO: Add passkeys to the browser autofill: Detect features, invoke WebAuthn, and enable a conditional UI.
+      import {
+        $,
+        _fetch,
+        loading,
+        authenticate
+      } from '/client.js';
+
+      const form = $('#form');
+      form.addEventListener('submit', async s => {
+        s.preventDefault();
+        const form = new FormData(s.target);
+        const cred = {};
+        form.forEach((v, k) => cred[k] = v);
+        _fetch(s.target.action, cred)
           .then(user => {
             location.href = '/reauth';
           }).catch(e => {
@@ -96,39 +74,40 @@
             console.error(e.message);
             alert(e);
           });
-        });
+      });
 
-        // TODO: Add passkeys to the browser autofill: Detect features, invoke WebAuthn, and enable a conditional UI.
+      // TODO: Add passkeys to the browser autofill: Detect features, invoke WebAuthn, and enable a conditional UI.
 
-       // Is WebAuthn available on this browser?
-        if (window.PublicKeyCredential &&
-            PublicKeyCredential.isConditionalMediationAvailable) {
-          try {
-            // Is conditional UI available in this browser?
-            const cma= await PublicKeyCredential.isConditionalMediationAvailable();
-            if (cma) {
-              // If conditional UI is available, invoke the authenticate() function.
-              const user = await authenticate();
-              if (user) {
-                // Proceed only when authentication succeeds.
-                $('#username').value = user.username;
-                loading.start();
-                location.href = '/home';
-              } else {
-                throw new Error('User not found.');
-              }
-            }
-          } catch (e) {
-            loading.stop();
-            // A NotAllowedError indicates that the user canceled the operation.
-            if (e.name !== 'NotAllowedError') {
-              console.error(e);
-              alert(e.message);
+      // Is WebAuthn available on this browser?
+      if (window.PublicKeyCredential &&
+        PublicKeyCredential.isConditionalMediationAvailable) {
+        try {
+          // Is conditional UI available in this browser?
+          const cma = await PublicKeyCredential.isConditionalMediationAvailable();
+          if (cma) {
+            // If conditional UI is available, invoke the authenticate() function.
+            const user = await authenticate();
+            if (user) {
+              // Proceed only when authentication succeeds.
+              $('#username').value = user.username;
+              loading.start();
+              location.href = '/home';
+            } else {
+              throw new Error('User not found.');
             }
           }
+        } catch (e) {
+          loading.stop();
+          // A NotAllowedError indicates that the user canceled the operation.
+          if (e.name !== 'NotAllowedError') {
+            console.error(e);
+            alert(e.message);
+          }
         }
+      }
 
-      </script>
-    </main>
-  </body>
+    </script>
+  </main>
+</body>
+
 </html>

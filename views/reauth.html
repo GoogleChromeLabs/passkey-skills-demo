@@ -23,47 +23,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="/bundle.css">
+    <link rel="stylesheet" href="/bundle-css.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
     <script src="components-bundle.js"></script>
   </head>
-  <body class="mdc-typography">
-    <mwc-top-app-bar-fixed>
-      <span slot="title">{{title}}</span>
-      <mwc-icon-button id="code" icon="code" slot="actionItems"></mwc-icon-button>
-    </mwc-top-app-bar-fixed>
-    <mwc-linear-progress id="progress"></mwc-linear-progress>
-    <main class="content">
+  <body>
+    <mdui-top-app-bar style="position: relative;">
+      <mdui-top-app-bar-title>{{title}}</mdui-top-app-bar-title>
+      <a href="https://github.com/GoogleChromeLabs/passkeys-codelab"><mdui-button-icon icon="code"></mdui-button-icon></a>
+    </mdui-top-app-bar>
+    <mdui-linear-progress id="progress" class="hidden"></mdui-linear-progress>
+    <main class="content center">
       <form id="form" method="POST" action="/auth/password" class="center">
         <h2>
           Enter a password
         </h2>
-        <input type="text" name="username" value="{{username}}" class="hidden"/>
-        <div class="mdc-text-field mdc-text-field--filled">
-          <span class="mdc-text-field__ripple"></span>
-          <label class="mdc-floating-label" id="password-label">password</label>
-          <input
-            type="password"
-            class="mdc-text-field__input"
-            aria-labelledby="password-label"
-            name="password"
-            value="f2xELEPgKpuz"
-            autocomplete="current-password"
-            autofocus />
-          <span class="mdc-line-ripple"></span>
-        </div>
-        <input type="submit" class="mdc-button mdc-button--raised" value="Sign-In" />
+        <mdui-text-field name="username" value="{{username}}" class="hidden"></mdui-text-field>
+        <mdui-text-field
+          id="password"
+          label="Password"
+          type="password"
+          name="password"
+          autocomplete="current-password"
+          toggle-password
+          value="f2xELEPgKpuz"
+          autofocus></mdui-text-field>
         <p class="instructions">password will be ignored in this demo.</p>
+        <mdui-button type="submit" value="Sign-In">Sign-In</mdui-button>
       </form>
     </main>
-    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
     <script type="module">
       import { $, _fetch } from '/client.js';
-      new mdc.textField.MDCTextField($('.mdc-text-field'));
-      
-      $('#code').addEventListener('click', e => {
-        location.href = 'https://glitch.com/edit/#!/{{project_name}}';
-      });
       
       const form = $('#form');
       form.addEventListener('submit', e => {

@@ -14,11 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License
  */
-import '@material/mwc-button';
-import '@material/mwc-fab';
-import '@material/mwc-top-app-bar-fixed';
-import '@material/mwc-textfield';
-import '@material/mwc-list';
-import '@material/mwc-icon';
-import '@material/mwc-icon-button';
-import '@material/mwc-linear-progress';
+import 'mdui/mdui.css';
+import 'mdui';
+import 'mdui/components/top-app-bar.js';
+import 'mdui/components/top-app-bar-title.js';
+import 'mdui/components/linear-progress.js';
+import 'mdui/components/list.js';
+import 'mdui/components/list-item.js';
+import 'mdui/components/button-icon.js';

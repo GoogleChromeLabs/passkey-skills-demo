@@ -15,21 +15,30 @@
  * limitations under the License
  */
 
-@use '@material/typography';
-@use '@material/textfield';
-
 * {
   box-sizing: border-box;
-  --mdc-theme-secondary: red;
 }
 
 body {
   margin: 0;
   padding: 0;
+  font-family: Arial;
 }
 
+mdui-top-app-bar {
+  background: rgb(var(--mdui-color-primary));
+  mdui-button-icon {
+    color: white;
+  }
+}
+
+mdui-top-app-bar-title {
+  color: white;
+}
+
+
 .content {
-  margin: 0 16px 20px 16px;
+  margin: 30px 16px 20px 16px;
 }
 
 .instructions {
@@ -61,33 +70,11 @@ h3 {
   padding: 0 16px;
 }
 
-mwc-list {
-  width: 400px;
-  mwc-list-item {
-    .list-item {
-      width: 368px;
-      display: flex;
-      justify-content: space-between;
-      * {
-        display: inline-block;
-      }
-      .entity-name {
-        line-height: var(--mdc-icon-button-size, 48px);
-        flex: 1 1 auto;
-        mwc-icon.mini {
-          margin: 4px;
-          --mdc-icon-size: 16px;
-          vertical-align: middle;
-        }
-      }
-      .buttons {
-        flex: 0 1 auto;
-      }
-    }
-  }
+mdui-list-item {
+  min-width: 400px;
 }
 
-mwc-button, .mdc-button {
+mdui-button {
   margin: 8px 0;
   a {
     text-decoration: none;
@@ -98,10 +85,6 @@ mwc-button, .mdc-button {
 .public-key {
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-#create-passkey {
-  --mdc-theme-primary: red;
 }
 
 #uvpa_available div {

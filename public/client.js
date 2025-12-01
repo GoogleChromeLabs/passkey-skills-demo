@@ -61,14 +61,14 @@ class Loading {
     this.progress = $('#progress');
   }
   start() {
-    this.progress.indeterminate = true;
+    this.progress.classList.remove("hidden");
     const inputs = document.querySelectorAll('input');
     if (inputs) {
       inputs.forEach(input => input.disabled = true);
     }
   }
   stop() {
-    this.progress.indeterminate = false;
+    this.progress.classList.add("hidden");
     const inputs = document.querySelectorAll('input');
     if (inputs) {
       inputs.forEach(input => input.disabled = false);
