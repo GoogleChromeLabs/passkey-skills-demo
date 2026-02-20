@@ -19,9 +19,7 @@
 <head>
   <title>{{title}}</title>
   <meta name="description" content="{{title}}">
-  <link id="favicon" rel="icon"
-    href="favicon.svg"
-    type="image/x-icon">
+  <link id="favicon" rel="icon" href="favicon.svg" type="image/x-icon">
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -42,7 +40,7 @@
       Enter a username
     </h2>
     <form id="form" method="POST" action="/auth/username" class="center">
-      <mdui-text-field id="username" label="Username" name="username" autocomplete="username webauthn"
+      <mdui-text-field id="username" label="Username" name="username" autocomplete="username"
         autofocus></mdui-text-field>
       <div class="hidden">
         <mdui-text-field id="password" label="Password" type="password" name="password" autocomplete="current-password"
@@ -52,12 +50,10 @@
       <mdui-button type="submit" value="Next">Next</mdui-button>
     </form>
     <script type="module">
-      // TODO: Add passkeys to the browser autofill: Detect features, invoke WebAuthn, and enable a conditional UI.
       import {
         $,
         _fetch,
         loading,
-        authenticate
       } from '/client.js';
 
       const form = $('#form');
@@ -75,37 +71,6 @@
             alert(e);
           });
       });
-
-      // TODO: Add passkeys to the browser autofill: Detect features, invoke WebAuthn, and enable a conditional UI.
-
-      // Is WebAuthn available on this browser?
-      if (window.PublicKeyCredential &&
-        PublicKeyCredential.isConditionalMediationAvailable) {
-        try {
-          // Is conditional UI available in this browser?
-          const cma = await PublicKeyCredential.isConditionalMediationAvailable();
-          if (cma) {
-            // If conditional UI is available, invoke the authenticate() function.
-            const user = await authenticate();
-            if (user) {
-              // Proceed only when authentication succeeds.
-              $('#username').value = user.username;
-              loading.start();
-              location.href = '/home';
-            } else {
-              throw new Error('User not found.');
-            }
-          }
-        } catch (e) {
-          loading.stop();
-          // A NotAllowedError indicates that the user canceled the operation.
-          if (e.name !== 'NotAllowedError') {
-            console.error(e);
-            alert(e.message);
-          }
-        }
-      }
-
     </script>
   </main>
 </body>

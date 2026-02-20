@@ -6,12 +6,11 @@
   "type": "module",
   "scripts": {
     "build": "webpack",
-    "start": "node server.mjs"
+    "start": "IS_LOCAL=true node server.mjs"
   },
   "dependencies": {
     "@babel/core": "^7.28.4",
     "@babel/preset-env": "^7.4.5",
-    "@simplewebauthn/server": "^13.1.2",
     "babel-loader": "^10.0.0",
     "base64url": "^3.0.1",
     "body-parser": "^2.2.1",

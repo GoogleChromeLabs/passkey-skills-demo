@@ -36,7 +36,7 @@ app.use(session({
   resave: true,
   saveUninitialized: false,
   proxy: true,
-  cookie:{
+  cookie: {
     httpOnly: true,
     secure: process.env.IS_LOCAL ? false : true,
     sameSite: process.env.IS_LOCAL ? undefined : 'none'
@@ -109,36 +109,6 @@ app.get('/home', (req, res) => {
     project_name: process.env.PROJECT_NAME,
     title: RP_NAME,
   });
-});
-
-app.get('/.well-known/assetlinks.json', (req, res) => {
-  const assetlinks = [];
-  const relation = [
-    'delegate_permission/common.handle_all_urls',
-    'delegate_permission/common.get_login_creds',
-  ];
-  assetlinks.push({
-    relation: relation,
-    target: {
-      namespace: 'web',
-      site: process.env.ORIGIN,
-    },
-  });
-  if (process.env.ANDROID_PACKAGENAME && process.env.ANDROID_SHA256HASH) {
-    const package_names = process.env.ANDROID_PACKAGENAME.split(",").map(name => name.trim());
-    const hashes = process.env.ANDROID_SHA256HASH.split(",").map(hash => hash.trim());
-    for (let i = 0; i < package_names.length; i++) {
-      assetlinks.push({
-        relation: relation,
-        target: {
-          namespace: 'android_app',
-          package_name: package_names[i],
-          sha256_cert_fingerprints: [hashes[i]],
-        },
-      });
-    }
-  }
-  res.json(assetlinks);
 });
 
 app.get('/test', (req, res) => {
