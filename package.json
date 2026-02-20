@@ -1,7 +1,7 @@
 {
-  "name": "passkeys-codelab",
+  "name": "passkey-skills",
   "version": "1.0.0",
-  "description": "Passkeys Codelab",
+  "description": "Passkey Skills",
   "main": "server.mjs",
   "type": "module",
   "scripts": {
@@ -30,10 +30,7 @@
     "webpack-cli": "^6.0.1"
   },
   "engines": {
-    "node": ">=16.x"
-  },
-  "repository": {
-    "url": "https://github.com/googlecodelabs/fido2-codelab"
+    "node": ">=24.x"
   },
   "license": "Apache-2.0",
   "keywords": [
