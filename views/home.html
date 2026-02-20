@@ -80,37 +80,6 @@
 
     renderDisplayName();
 
-    async function rename(e) {
-      const { credId, name } = e.target.dataset;
-      const newName = prompt('Enter a new credential name.', name);
-      if (newName.length === 0) return;
-      try {
-        loading.start();
-        await updateCredential(credId, newName);
-        loading.stop();
-        renderCredentials();
-      } catch (e) {
-        loading.stop();
-        console.error(e);
-        alert(e.message);
-      }
-    };
-
-    async function remove(e) {
-      if (!confirm('Do you really want to remove this credential?')) return;
-
-      try {
-        loading.start();
-        await unregisterCredential(e.target.dataset.credId);
-        loading.stop();
-        renderCredentials();
-      } catch (e) {
-        loading.stop();
-        console.error(e);
-        alert(e.message);
-      }
-    };
-
   </script>
 </body>
 
