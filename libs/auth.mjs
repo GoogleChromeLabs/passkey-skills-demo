@@ -17,7 +17,7 @@
 import express from 'express';
 const router = express.Router();
 import crypto from 'crypto';
-import { Users, Credentials } from './db.mjs';
+import { Users } from './db.mjs';
 
 router.use(express.json());
 
