@@ -17,13 +17,6 @@
 import express from 'express';
 const router = express.Router();
 import crypto from 'crypto';
-import {
-  generateRegistrationOptions,
-  verifyRegistrationResponse,
-  generateAuthenticationOptions,
-  verifyAuthenticationResponse
-} from '@simplewebauthn/server';
-import { isoBase64URL } from '@simplewebauthn/server/helpers';
 import { Users, Credentials } from './db.mjs';
 
 router.use(express.json());
