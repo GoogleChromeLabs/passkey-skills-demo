@@ -52,7 +52,7 @@
     <script type="module">
       import {
         $,
-        _fetch,
+        post,
         loading,
       } from '/client.js';
 
@@ -62,7 +62,7 @@
         const form = new FormData(s.target);
         const cred = {};
         form.forEach((v, k) => cred[k] = v);
-        _fetch(s.target.action, cred)
+        post(s.target.action, cred)
           .then(user => {
             location.href = '/reauth';
           }).catch(e => {

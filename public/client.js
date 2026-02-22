@@ -16,7 +16,7 @@
  */
 export const $ = document.querySelector.bind(document);
 
-export async function _fetch(path, payload = '') {
+export async function post(path, payload = '') {
   const headers = {
     'X-Requested-With': 'XMLHttpRequest',
   };

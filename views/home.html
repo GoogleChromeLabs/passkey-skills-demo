@@ -52,7 +52,7 @@
     // TODO: Add an ability to create a passkey: Create and register a passkey.
     import {
       $,
-      _fetch,
+      post,
       loading,
     } from '/client.js';
     import { html, render } from 'https://unpkg.com/lit-html@2.6.1/lit-html.js?module';
@@ -61,14 +61,14 @@
       const newName = prompt('Enter a new display name', e.target.dataset.displayName);
       if (newName) {
         loading.start();
-        await _fetch('/auth/updateDisplayName', { newName });
+        await post('/auth/updateDisplayName', { newName });
         loading.stop();
         renderDisplayName();
       }
     }
 
     async function renderDisplayName() {
-      const res = await _fetch('/auth/userinfo');
+      const res = await post('/auth/userinfo');
       render(html`
         <mdui-list>
           <mdui-list-item>
