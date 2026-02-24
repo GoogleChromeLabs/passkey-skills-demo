@@ -18,6 +18,7 @@ import express from 'express';
 const router = express.Router();
 import crypto from 'crypto';
 import { Users } from './db.mjs';
+import base64url from 'base64url';
 
 router.use(express.json());
 
@@ -59,7 +60,7 @@ router.post('/username', async (req, res) => {
       // If user entry is not created yet, create one
       if (!user) {
         user = {
-          id: isoBase64URL.fromBuffer(crypto.randomBytes(32)),
+          id: base64url.encode(crypto.randomBytes(32)),
           username,
           displayName: username,
         };

@@ -44,15 +44,11 @@ app.use(session({
 }));
 app.use(bodyParser.urlencoded({ extended: false }));
 
-const RP_NAME = 'Passkeys Codelab';
+const RP_NAME = 'Passkey Skills';
 const port = process.env.GLITCH_DEBUGGER ? null : 8080;
 
 app.use((req, res, next) => {
-  if (process.env.PROJECT_DOMAIN) {
-    process.env.HOSTNAME = `${process.env.PROJECT_DOMAIN}.glitch.me`;
-  } else {
-    process.env.HOSTNAME = req.hostname;
-  }
+  process.env.HOSTNAME = req.hostname;
   const protocol = process.env.IS_LOCAL ? 'http' : 'https';
   process.env.ORIGIN = `${protocol}://${process.env.HOSTNAME}${port ? `:${port}` : ''}`;
   process.env.RP_NAME = RP_NAME;
