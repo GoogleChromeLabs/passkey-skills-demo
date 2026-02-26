@@ -28,6 +28,8 @@ Each entry has the following schema:
 
 After verifying a registration response, read the `aaguid` from the registration result and look it up against the registry to populate the credential's `name` and `providerIcon`:
 
+If the AAGUID is `00000000-0000-0000-0000-000000000000`, treat it as an unknown provider and fall back to a generic label. In such case, use the device name as the passkey provider based on the information derived from ithe user agent string, or just say "Unknown passkey provider".
+
 ```javascript
 import aaguids from './aaguids.json' with { type: 'json' };
 
@@ -47,10 +49,6 @@ if (aaguid === '00000000-0000-0000-0000-000000000000') {
 }
 ```
 
-## 3. Fallback if AAGUID is zeroed or not found
-
-If the AAGUID is `00000000-0000-0000-0000-000000000000`, treat it as an unknown provider and fall back to a generic label. In such case, use the device name as the passkey provider based on the information derived from ithe user agent string, or just say "Unknown passkey provider".
-
-## 4. Passkey Management UI
+## 3. Passkey Management UI
 
 Use the AAGUID-derived name and icon when displaying registered passkeys so users can identify which provider holds each credential. Combine with the registration date and last-used date for additional context.
