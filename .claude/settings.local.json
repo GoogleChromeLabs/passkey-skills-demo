@@ -3,7 +3,10 @@
     "allow": [
       "Bash(npm install:*)",
       "Bash(cat:*)",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "Bash(curl:*)",
+      "Bash(timeout 5 node:*)",
+      "Bash(IS_LOCAL=true node:*)"
     ]
   }
 }
