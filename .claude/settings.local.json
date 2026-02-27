@@ -6,7 +6,9 @@
       "Bash(git:*)",
       "Bash(curl:*)",
       "Bash(timeout 5 node:*)",
-      "Bash(IS_LOCAL=true node:*)"
+      "Bash(IS_LOCAL=true node:*)",
+      "Bash(timeout 5 npm start:*)",
+      "Bash(node:*)"
     ]
   }
 }
