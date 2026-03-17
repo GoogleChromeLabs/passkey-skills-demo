@@ -57,10 +57,8 @@ await PublicKeyCredential.signalCurrentUserDetails({
 Notifies the passkey provider that a credential no longer exists on the server, so the provider can stop offering it to the user.
 
 **When to call:**
-- After passkey authentication fails because the credential is not found on the server
-- After server-side registration verification fails
-
-Use only when the user is unauthenticated to avoid revealing the user's total passkey count.
+- After passkey **authentication** fails because the credential is not found on the server (HTTP 404) — only when the user is unauthenticated.
+- After server-side **registration** verification fails — call regardless of auth state.
 
 ```javascript
 await PublicKeyCredential.signalUnknownCredential({

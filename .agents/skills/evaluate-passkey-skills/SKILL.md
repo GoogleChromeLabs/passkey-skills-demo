@@ -1,6 +1,6 @@
 ---
 name: evaluate-passkey-skills
-description: Evaluate a passkey implementation against best practices defined in the `passkeys-web` and `simplewebauthn` skills. Use this skill to audit whether a passkey implementation follows all recommended patterns for passkey registration, authentication, management, Signal API usage, and AAGUID handling.
+description: Evaluate a passkey implementation against best practices defined in the `passkeys-web` and `simplewebauthn` skills. Use this skill to audit whether a passkey implementation follows all recommended patterns for passkey registration, authentication, reauthentication, management, Signal API usage, and AAGUID handling.
 license: Apache-2.0
 ---
 # Passkey Skills Evaluation
@@ -112,7 +112,7 @@ Source: `passkeys-web/authentication.md`
 | A18 | `NotAllowedError` handled             | Specific catch                                                     |
 | A19 | `AbortError` handled                  | Specific catch                                                     |
 | A20 | `toJSON()` encoding                   | Response encoded with `toJSON()`                                   |
-| A21 | `signalUnknownCredential()` handled   | Called ONLY when server `fetch` fails (`throw` block)              |
+| A21 | `signalUnknownCredential()` handled   | Called ONLY when server explicitly responds with HTTP 404          |
 
 ---
 
@@ -150,6 +150,30 @@ Source: `passkeys-web/management.md`
 | M14 | `signalAllAcceptedCredentials()` after delete | Called after a passkey is deleted                |
 | M15 | `signalCurrentUserDetails()` after rename     | Called after display name or passkey name change |
 | M16 | Base64URL-encoded parameters used             | Parameters are string, not BufferSource          |
+
+---
+
+## Reauthentication
+
+Source: `passkeys-web/reauthentication.md`
+
+### Server — Generate Options Endpoint
+
+| #   | Check                                 | What to look for                                                               |
+| --- | ------------------------------------- | ------------------------------------------------------------------------------ |
+| RA1 | `allowCredentials` contains IDs       | List of `PublicKeyCredentialDescriptor` objects mapped to `allowCredentials`   |
+
+### Server — Verify Response Endpoint
+
+| #   | Check                                 | What to look for                                                               |
+| --- | ------------------------------------- | ------------------------------------------------------------------------------ |
+| RA2 | Assertion belongs to signed-in user   | Server explicitly verifies the assertion belongs to the signed-in user         |
+
+### Client — Reauthentication Flow
+
+| #   | Check                                 | What to look for                                                               |
+| --- | ------------------------------------- | ------------------------------------------------------------------------------ |
+| RA3 | Appropriate flow used                 | Uses button flow (if no form) or conditional mediation (if form)               |
 
 ---
 

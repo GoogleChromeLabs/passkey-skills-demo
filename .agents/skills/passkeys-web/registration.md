@@ -30,10 +30,12 @@ export interface SesamePublicKeyCredential {
 
 1. Create a `challenge` and store it to the session.
 2. Pass existing credentials to `excludeCredentials` to prevent creating duplicates on the same password manager account.
-3. Specify `authenticatorAttachment: "platform"` on passkey promotion to prioritize platform authenticators. "Passkey promotion" means offering passkey creation to a user who signed in via a non-passkey method (e.g., password). Any page where the user is already authenticated and is prompted or offered to create a passkey (such as a home page, settings page, or post-login prompt) counts as passkey promotion.
-4. Do not specify `authenticatorAttachment` for passkey creation on a dedicated passkey management page to allow security keys.
-5. Specify `requireResidentKey: true` and `residentKey: "required"` to request a discoverable credential.
-6. Specify `userVerification: "preferred"` or `userVerification: "required"` to verify the user.
+3. **`authenticatorAttachment` depends on the call site — this is a common mistake:**
+   - Set `authenticatorAttachment: "platform"` **only** for **passkey promotion** flows: post-signup auto-creation, post-login prompt, or any fire-and-forget passkey offer. "Passkey promotion" means offering passkey creation to a user who just authenticated via a non-passkey method.
+   - **Do NOT set `authenticatorAttachment`** (omit it entirely) when called from a **dedicated passkey management page** (e.g. Settings → Security). Omitting it allows users to register hardware security keys (YubiKey, etc.) in addition to platform authenticators.
+   - If a single `/register/options` endpoint serves both flows, accept a `promotion: boolean` field in the request body and conditionally apply `authenticatorAttachment: "platform"` only when `promotion === true`.
+4. Specify `requireResidentKey: true` and `residentKey: "required"` to request a discoverable credential.
+5. Specify `userVerification: "preferred"` or `userVerification: "required"` to verify the user.
 
 ### Verify Response Endpoint
 

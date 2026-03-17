@@ -15,9 +15,9 @@ Implement a sign-in flow using passkeys.
 1. Check that the `challenge` matches the one in the session.
 2. Do not verify the UV flag unless `userVerification: "required"` is passed at the frontend, but don't include this switch in a query parameter. It should be in recorded in the session at the [[#Generate Options Endpoint|options endpoint]].
 3. Make sure the signature is verified against the public key stored to the server.
-4. Respond with HTTP error code 404 if the matching public key can't be found in the database so that the frontend can invoke the Signal API.
+4. Respond with HTTP error code `404` if the matching public key can't be found in the database.
 
-## 2. Client-Side Logic
+## 2. Client-Side
 
 ### Fetch Options from the Server
 
@@ -63,4 +63,4 @@ Implement a sign-in flow using passkeys.
     ```
 
 6. Encode the resulting `AuthenticatorAssertionResponse` with `toJSON()` before sending it to the server for verification.
-7. Separate the `navigator.credentials.get()` call from the server verification `fetch` call into distinct try/catch blocks (or use a flag/variable to distinguish which phase failed). Only call `signalUnknownCredential()` when the server verification fails — i.e., when the `fetch()` throws. The credential ID to pass should come from the encoded credential response (e.g. `encodedCredential.id`). Do not call it for WebAuthn API errors (`NotAllowedError` and `AbortError`).
+7. Separate the `navigator.credentials.get()` call from the server verification `fetch` call into distinct try/catch blocks (or use a flag/variable to distinguish which phase failed). **Only call `signalUnknownCredential()` when the server explicitly responds with HTTP status `404` (Credential not found).** Do not call it on other server errors to avoid unintentionally signaling a valid passkey as unknown. Do not call it for WebAuthn API errors (`NotAllowedError` and `AbortError`). The credential ID to pass should come from the encoded credential response (e.g. `encodedCredential.id`).
