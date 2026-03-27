@@ -59,9 +59,11 @@ You can also prompt the agent to audit the implementation it just made:
 
 ### 3. Try It With Your Own Code
 
-To use these skills in your own project, copy the `./skills` directory into your project's `.agents/skills` directory. Once copied, prompt your agent to implement passkeys within your codebase.
+To apply these skills to your own project, simply copy the `./skills` directory into your project's `.agents/skills` directory. Once in place, prompt your preferred coding agent to implement passkeys within your codebase. 
 
-You can then use the `evaluate-passkey-skills` skill to verify if the implementation aligns with best practices.
+Afterward, you can use the `evaluate-passkey-skills` skill to verify that the generated codebase aligns with passkey best practices.
+
+We appreciate if you could experiment with coding agents that haven't been officially tested yet!
 
 ## Features Covered by the Skills
 
