@@ -1,99 +1,79 @@
-This is a demo project to test `passkey-web` agent skills.
+# Passkey Agent Skills Alpha
 
-With `passkey-web` agent skills, you can implement passkeys that meets [Google's passkey best practices](https://web.dev/articles/passkey-checklist) in your web application with relatively low effort.
+This repository provides **agentic skills** and a **demo environment** designed to help AI coding agents implement passkeys on the web following [Google's passkey best practices](https://web.dev/articles/passkey-checklist).
 
-## Features
+## What are Agent Skills?
 
-The features you can expect with this skill includes:
+Agent skills are markdown-based guides that you can provide to an AI coding assistant (like Antigravity or Claude Code) to guide it through complex, multi-step implementation tasks. By exposing these skills in a `.agents/skills` directory, your AI agent automatically learns the correct standards, API usage, and security practices for implementing passkeys.
 
-### Passkey registration
+## Included Skills
 
-- Database schema definition
-- Frontend
-    - Feature detection
-    - Error handling
-    - Signal API to remove the created passkey when server-side verification fails
-- Server side
-    - Credential registration
-    - Passkey provider detection based on AAGUID
-### Passkey management UI
+This repository includes the following skills:
 
-- List of saved passkeys
-- Show passkey details
-    - Passkey provider name
-    - Passkey provider icon
-    - Registered date and time
-    - Last used date and time
-- Delete passkeys
-- Rename passkeys
-- Create a new passkey
-- Signal API to inform the list of passkeys to the passkey provider
-- Signal API to inform the passkey details update to the passkey provider
-### Passkey authentication
+- **`passkeys-web`**: The core skill for implementing passkeys in web applications. It defines the required database schemas, API flows, and security requirements for passkey registration, authentication, management, and reauthentication.
+- **`evaluate-passkey-skills`**: An auditing skill to evaluate a passkey implementation against the best practices defined in `passkeys-web` and `simplewebauthn`.
 
-- Frontend
-    - Feature detection
-    - Passkey button flow
-    - Optional passkey form autofill (conditional mediation)
-    - Error handling
-- Server side
-    - Verification
-- Signal API to remove the saved passkey when server-side credential is missing
-### Passkey reauthentication
+Additionally, to assist the demo code using SimpleWebAuthn, we provide a specialized skill:
 
-- Frontend
-    - Feature detection
-    - Authentication with a list of credentials specified
-    - Passkey form autofill (conditional mediation)
-    - Passkey button flow
-- Server side
-    - Verification matching the claimed user
+- **`simplewebauthn`**: A specialized skill for implementing passkeys in Node.js/TypeScript using the `@simplewebauthn/server` library.
 
-### References
+## How to Try the Alpha
 
-- Signal API
-- Conditional Mediation
-- Passkey provider detection using AAGUID
+To try out these skills, you can use the provided demo project.
 
-## Tested coding agents
+### 1. Set Up the Demo Environment
 
-- Antigravity + Gemini 3.1 Pro
-- Antigravity + Opus 4.6
-- Claude Code + Opus 4.6
+The repository includes a starter web application in the `demo` directory where you can test the AI agent's implementation of passkeys.
 
-## Skills usage
+```bash
+cd demo
+npm install
+npm run build
+npm start
+```
 
-Try the following prompts to test the skills:
+### 2. Instruct Your Agent
+
+Once your agent is running in the repository directory, you can prompt it to implement specific features. The agent will automatically recognize the skills provided. Try the following prompts:
 
 1. "Implement passkey registration to `/home`"
 2. "Implement passkey management UI to `/home`"
 3. "Implement passkey authentication to `/`"
 4. "Implement passkey reauthentication to `/reauth`"
 
-You may also try variations of above prompts.
+You can also prompt the agent to audit the implementation it just made:
+- "Evaluate my passkey implementation using the `evaluate-passkey-skills` skill."
 
-## Running the server
+## Features Covered by the Skills
 
-Install dependencies
+When the AI implements these features using the provided skills, you can expect the following best practices to be incorporated out-of-the-box:
 
-```bash
-# Install dependencies
-npm install
-```
+### Passkey Registration
+- Proper database schema definition.
+- Frontend feature detection and specific error handling.
+- Appropriate Signal API integration to remove dead credentials automatically.
+- Passkey provider detection and matching using AAGUIDs.
 
-Build
+### Passkey Authentication & Reauthentication
+- Frontend passkey button flows.
+- Passkey form autofill (Conditional Mediation).
+- Verification of signed-in sessions during reauthentication.
 
-```bash
-# Install dependencies
-npm run build
-```
+### Passkey Management UI
+- Listing, renaming, and deleting saved passkeys.
+- Displaying rich passkey provider names and icons.
+- Real-time management sync with the operating system via the Signal API (`signalAllAcceptedCredentials`, `signalCurrentUserDetails`).
 
-Start the server
+## Tested Coding Agents
 
-```bash
-# Start the server
-npm run start
-```
+These skills have been tested and verified to work well with:
+- Antigravity + Gemini 3.1 Pro
+- Antigravity + Opus 4.6
+- Claude Code + Opus 4.6
+
+## Disclaimer
+
+This skill set is designed to help AI coding agents implement passkeys that align with Google's best practices, reducing your development workload. However, it does not provide an exhaustive implementation of every security guideline. When deploying passkeys in a production environment, please thoroughly review [Google's passkey best practices](https://web.dev/articles/passkey-checklist) and ensure your application meets all necessary security standards.
 
 ## License
 
