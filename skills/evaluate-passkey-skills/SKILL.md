@@ -72,6 +72,20 @@ Source: `passkeys-web/registration.md`, `simplewebauthn/SKILL.md`
 | R32 | `toJSON()` encoding                            | `credential.toJSON()` before sending to server             |
 | R33 | `signalUnknownCredential()` on server failure  | Called ONLY when server `fetch` verification fails         |
 
+### Conditional Create
+
+Source: `passkeys-web/references/conditional-create.md`
+
+| #   | Check                                          | What to look for                                           |
+| --- | ---------------------------------------------- | ---------------------------------------------------------- |
+| CC1 | Trigger moment                                 | Invoked immediately after a successful, full sign-in that involved a password (e.g., after 2FA is complete) |
+| CC2 | Feature detection                              | `capabilities.conditionalCreate` checked                   |
+| CC3 | Ongoing Conditional Get aborted                | `abortController.abort()` called before create             |
+| CC4 | Conditional mediation                          | `mediation: 'conditional'` used in `navigator.credentials.create()` |
+| CC5 | Silent exceptions handled                      | Specific catch and ignore for `InvalidStateError`, `NotAllowedError`, `AbortError` |
+| CC6 | Server ignores User Presence conditionally     | `requireUserPresence: false` in `verifyRegistrationResponse()` ONLY when triggered from conditional create |
+| CC7 | Session check enforced                         | User session is validated (e.g. `sessionCheck` middleware) before conditional registration |
+
 ---
 
 ## Authentication
@@ -113,6 +127,9 @@ Source: `passkeys-web/authentication.md`
 | A19 | `AbortError` handled                  | Specific catch                                                     |
 | A20 | `toJSON()` encoding                   | Response encoded with `toJSON()`                                   |
 | A21 | `signalUnknownCredential()` handled   | Called ONLY when server explicitly responds with HTTP 404          |
+| A22 | Form annotated for autofill           | `autocomplete="username webauthn"` or `password webauthn`          |
+| A23 | Autofill triggers automatically       | `autofocus` attribute present on annotated input                   |
+| A24 | Autofill feature detection            | `capabilities.conditionalGet` checked before starting              |
 
 ---
 

@@ -18,6 +18,7 @@ This skill provides a modular guide to implementing passkeys
 
 You MUST read the following references when implementing their respective features:
 
+- [Conditional Create](./references/conditional-create.md): Read this before implementing automatic passkey creation or conditional create.
 - [Conditional Mediation](./references/conditional-mediation.md): Read this before implementing form autofill based passkey authentication.
 - [Signal API](./references/signal-api.md): Read this before implementing any `PublicKeyCredential.signal*` methods.
 - [AAGUID Resolution](./references/determine-passkey-provider-from-aaguid.md): Read this before saving a new credential to the database during registration to map the provider name and icon.

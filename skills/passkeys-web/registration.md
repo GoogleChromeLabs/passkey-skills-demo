@@ -41,8 +41,9 @@ export interface SesamePublicKeyCredential {
 
 1. Check that the `challenge` matches the one in the session.
 2. Accept a UV flag: `false` (if you used `'preferred'` and want to allow UV-less authenticators, though mostly unnecessary for resident keys).
-3. Determine the passkey provider based on the AAGUID. You must read [[./references/determine-passkey-provider-from-aaguid]] .
-4. Respond with HTTP error code 404 if the matching public key can't be found in the database so that the frontend can invoke the Signal API.
+3. The UP flag must be `true` unless this is conditional create.
+4. Determine the passkey provider based on the AAGUID. You must read [[./references/determine-passkey-provider-from-aaguid]] .
+5. Respond with HTTP error code 404 if the matching public key can't be found in the database so that the frontend can invoke the Signal API.
 
 ## 3. Client-Side Logic
 
