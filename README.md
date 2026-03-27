@@ -1,5 +1,7 @@
 # Passkey Agent Skills Alpha
 
+*This is alpha version for evalution. Please do not share.*
+
 This repository provides **agentic skills** and a **demo environment** designed to help AI coding agents implement passkeys on the web following [Google's passkey best practices](https://web.dev/articles/passkey-checklist).
 
 ## What are Agent Skills?
@@ -13,9 +15,20 @@ This repository includes the following skills:
 - **`passkeys-web`**: The core skill for implementing passkeys in web applications. It defines the required database schemas, API flows, and security requirements for passkey registration, authentication, management, and reauthentication.
 - **`evaluate-passkey-skills`**: An auditing skill to evaluate a passkey implementation against the best practices defined in `passkeys-web` and `simplewebauthn`.
 
-Additionally, to assist the demo code using SimpleWebAuthn, we provide a specialized skill:
+Additionally, to assist the demo code using SimpleWebAuthn, we provide:
 
 - **`simplewebauthn`**: A specialized skill for implementing passkeys in Node.js/TypeScript using the `@simplewebauthn/server` library.
+
+## Give Us Your Feedback
+
+We would appreciate your feedback on:
+
+- Your overall thoughts on the concept of passkey agent skills.
+- Whether these skills actually helped you implement passkeys smoothly.
+- Any areas where we can improve the existing skills.
+- Any new features or missing skills you'd like to see added.
+
+Please send your feedback to `agektmr@google.com`. 
 
 ## How to Try the Alpha
 
@@ -44,6 +57,12 @@ Once your agent is running in the repository directory, you can prompt it to imp
 You can also prompt the agent to audit the implementation it just made:
 - "Evaluate my passkey implementation using the `evaluate-passkey-skills` skill."
 
+### 3. Try It With Your Own Code
+
+To use these skills in your own project, copy the `./skills` directory into your project's `.agents/skills` directory. Once copied, prompt your agent to implement passkeys within your codebase.
+
+You can then use the `evaluate-passkey-skills` skill to verify if the implementation aligns with best practices.
+
 ## Features Covered by the Skills
 
 When the AI implements these features using the provided skills, you can expect the following best practices to be incorporated out-of-the-box:
@@ -63,6 +82,15 @@ When the AI implements these features using the provided skills, you can expect 
 - Listing, renaming, and deleting saved passkeys.
 - Displaying rich passkey provider names and icons.
 - Real-time management sync with the operating system via the Signal API (`signalAllAcceptedCredentials`, `signalCurrentUserDetails`).
+
+## What's Not Included in These Skills
+
+The skills provided in this repository do not cover features that strongly depend on your application's specific architecture or business logic, such as:
+
+- Identity verification before creating a passkey.
+- Sending security notifications to the user when a passkey is created.
+- Passkey promotion after a password login (including cross-device flows).
+- Signaling username and display name changes to the password manager.
 
 ## Tested Coding Agents
 
