@@ -9,3 +9,4 @@ description: SimpleWebAuthn is a TypeScript-based passkey library. Use this when
 - `credentialDeviceType` and `credentialBackUp` are `VerifiedRegistrationResponse.registrationInfo` properties.
 - Use `isoBase64URL.fromBuffer` and `isoBase64URL.toBuffer` to convert between base64url `string` and `Buffer`.
 - Append `verifyBrowserAutofillInput: false` to `startAuthentcation()` when the form is consisted of web components.
+- When implementing `verifyAuthenticationResponse()`, pass in `credential` object instead of `authenticator` object, which contains: `id` for the credential ID as a buffer, `publicKey` for the public key as a buffer, `counter` for the counter as a number, `transports` for the transports as an array of strings.
