@@ -43,7 +43,7 @@ export default {
             options: {
               implementation: sass,
               sassOptions: {
-                includePaths: ['./node_modules'],
+                loadPaths: ['./node_modules'],
               },
             },
           },

@@ -53,7 +53,7 @@
       post,
       loading,
     } from '/client.js';
-    import { html, render } from 'https://unpkg.com/lit-html@2.6.1/lit-html.js?module';
+    import { html, render } from 'https://unpkg.com/lit-html@latest/lit-html.js?module';
 
     async function changeDisplayName(e) {
       const newName = prompt('Enter a new display name', e.target.dataset.displayName);
@@ -71,7 +71,7 @@
         <mdui-list>
           <mdui-list-item>
             ${res.displayName || res.username}
-            <mdui-button-icon data-name="${res.displayName || res.username}" title="Edit your display name" @click="${changeDisplayName}" icon="edit" slot="end-icon"></mdui-button-icon>
+            <mdui-button-icon data-display-name="${res.displayName || res.username}" title="Edit your display name" @click="${changeDisplayName}" icon="edit" slot="end-icon"></mdui-button-icon>
           </mdui-list-item>
         <mdui-list>`, $('#display-name'));
     };
