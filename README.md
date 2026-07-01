@@ -1,110 +1,120 @@
-# Passkey Agent Skills Alpha
+# Passkey Agent Skills Demo
 
-*This is alpha version for evalution. Please do not share.*
+This repository provides a **demo environment** designed to help developers get started with implementing passkeys on the web using AI coding agents (like Antigravity or Claude Code) guided by the **Modern Web Guidance** passkey skills.
 
-This repository provides **agentic skills** and a **demo environment** designed to help AI coding agents implement passkeys on the web following [Google's passkey best practices](https://web.dev/articles/passkey-checklist).
+## What is Modern Web Guidance?
 
-## What are Agent Skills?
+[Modern Web Guidance](https://goo.gle/modern-web-guidance) is a set of evergreen, expert-vetted skills designed to guide AI coding assistants. With the new passkey skills, you can implement registration, authentication, management, and reauthentication using the latest available APIs following Google's best practices. The AI agent handles the entire implementation autonomously, spanning both front-end UI and back-end logic.
 
-Agent skills are markdown-based guides that you can provide to an AI coding assistant (like Antigravity or Claude Code) to guide it through complex, multi-step implementation tasks. By exposing these skills in a `.agents/skills` directory, your AI agent automatically learns the correct standards, API usage, and security practices for implementing passkeys.
+Using passkey skills significantly improves the success rate of passkey implementations. In our evaluations using Claude Code:
 
-## Included Skills
+| Metric | Without passkey skills | With passkey skills |
+| :--- | :--- | :--- |
+| **PASS** | 47 | **80** |
+| **FAIL** | 32 | **0** |
+| **N/A** | 12 | 11 |
+| **Total** | 91 | 91 |
 
-This repository includes the following skills:
+---
 
-- **`passkeys-web`**: The core skill for implementing passkeys in web applications. It defines the required database schemas, API flows, and security requirements for passkey registration, authentication, management, and reauthentication.
-- **`evaluate-passkey-skills`**: An auditing skill to evaluate a passkey implementation against the best practices defined in `passkeys-web` and `simplewebauthn`.
+## Features & Capabilities Covered
 
-Additionally, to assist the demo code using SimpleWebAuthn, we provide:
+When your AI agent implements passkeys using these skills, the following best practices are incorporated out-of-the-box:
 
-- **`simplewebauthn`**: A specialized skill for implementing passkeys in Node.js/TypeScript using the `@simplewebauthn/server` library.
+* **Passkey Registration**: Proper database schema definition, frontend feature detection, and error handling.
+* **Passkey Authentication & Reauthentication**: Passkey buttons, form autofill (Conditional Mediation), and verification of signed-in sessions.
+* **Passkey Management UI**: Listing, renaming, and deleting saved passkeys, including displaying rich passkey provider names and icons.
+* **Modern APIs & Capabilities**:
+  * **`getClientCapabilities`**: For modern feature detection.
+  * **JSON Serialization**: Direct serialization of encoded payloads using standard helper APIs.
+  * **Signal API**: Automatic credential synchronization between the provider and your server (`signalAllAcceptedCredentials`, `signalCurrentUserDetails`).
+  * **Conditional Create**: Automatically prompting to create passkeys for users who recently signed in with a password.
 
-## Give Us Your Feedback
+---
 
-We would appreciate your feedback on:
+## How to Get Started
 
-- Your overall thoughts on the concept of passkey agent skills.
-- Whether these skills actually helped you implement passkeys smoothly.
-- Any areas where we can improve the existing skills.
-- Any new features or missing skills you'd like to see added.
-
-Please send your feedback to `agektmr@google.com`. 
-
-## How to Try the Alpha
-
-To try out these skills, you can use the provided demo project.
+Follow these steps to set up the demo environment and test the passkey agent skills.
 
 ### 1. Set Up the Demo Environment
 
-The repository includes a starter web application in the `demo` directory where you can test the AI agent's implementation of passkeys.
+First, clone this repository and install the dependencies:
 
 ```bash
-cd demo
+git clone git@github.com:agektmr/passkey-skills-demo.git
+cd passkey-skills-demo
 npm install
+```
+
+Build the frontend assets and start the local server:
+
+```bash
 npm run build
 npm start
 ```
 
-### 2. Instruct Your Agent
+The web application will run at `http://localhost:8080`.
 
-Once your agent is running in the repository directory, you can prompt it to implement specific features. The agent will automatically recognize the skills provided. Try the following prompts:
+### 2. Install the Passkey Skills
 
-1. "Implement passkey registration to `/home`"
-2. "Implement passkey management UI to `/home`"
-3. "Implement passkey authentication to `/`"
-4. "Implement passkey reauthentication to `/reauth`"
+Run the interactive setup wizard in the project directory to install Modern Web Guidance:
 
-You can also prompt the agent to audit the implementation it just made:
-- "Evaluate my passkey implementation using the `evaluate-passkey-skills` skill."
+```bash
+npx modern-web-guidance@latest install
+```
 
-### 3. Try It With Your Own Code
+This wizard places the required skill files in the `.agents/` directory, allowing your AI agent to recognize the passkey requirements.
 
-To apply these skills to your own project, simply copy the `./skills` directory into your project's `.agents/skills` directory. Once in place, prompt your preferred coding agent to implement passkeys within your codebase. 
+> [!NOTE]
+> **Claude Code Users:** If you are using Claude Code, you must create a symlink from `.agents` to `.claude` due to a [known issue](https://github.com/vercel-labs/skills/issues/744):
+> ```bash
+> ln -s .agents .claude
+> ```
 
-Afterward, you can use the `evaluate-passkey-skills` skill to verify that the generated codebase aligns with passkey best practices.
+### 3. Instruct Your Agent
 
-We appreciate if you could experiment with coding agents that haven't been officially tested yet!
+Start your AI coding agent (e.g., Antigravity, Claude Code) in the root of this project directory. You can prompt it to implement specific passkey features.
 
-## Features Covered by the Skills
+Try the following prompts:
 
-When the AI implements these features using the provided skills, you can expect the following best practices to be incorporated out-of-the-box:
+1. **Passkey Registration:**
+   > "Implement passkey registration at `/home` page"
+2. **Passkey Management:**
+   > "Implement passkey management UI at `/home` page"
+3. **Passkey Authentication:**
+   > "Implement passkey authentication at the top page `/`"
+4. **Passkey Reauthentication:**
+   > "Implement passkey reauthentication at `/reauth` page"
 
-### Passkey Registration
-- Proper database schema definition.
-- Frontend feature detection and specific error handling.
-- Appropriate Signal API integration to remove dead credentials automatically.
-- Passkey provider detection and matching using AAGUIDs.
+To verify that the agent's implementation aligns with all best practices, prompt it:
+> "Evaluate my passkey implementation using the `evaluate-passkey-skills` skill."
 
-### Passkey Authentication & Reauthentication
-- Frontend passkey button flows.
-- Passkey form autofill (Conditional Mediation).
-- Verification of signed-in sessions during reauthentication.
+> [!TIP]
+> If your AI agent doesn't seem to pick up the passkey skills, try explicitly telling it to:
+> *"use modern-web-guidance"*
 
-### Passkey Management UI
-- Listing, renaming, and deleting saved passkeys.
-- Displaying rich passkey provider names and icons.
-- Real-time management sync with the operating system via the Signal API (`signalAllAcceptedCredentials`, `signalCurrentUserDetails`).
+---
 
-## What's Not Included in These Skills
+## Server-Side Libraries and Skills
 
-The skills provided in this repository do not cover features that strongly depend on your application's specific architecture or business logic, such as:
+This repository includes a specialized skill for **SimpleWebAuthn** (located in `.agents/skills/simplewebauthn`), the recommended library for implementing passkeys in Node.js/TypeScript. 
 
-- Identity verification before creating a passkey.
-- Sending security notifications to the user when a passkey is created.
-- Passkey promotion after a password login (including cross-device flows).
-- Signaling username and display name changes to the password manager.
+AI coding agents often struggle to use the latest APIs of `@simplewebauthn/server`. This skill guides the agent to use correct, modern SimpleWebAuthn library APIs.
 
-## Tested Coding Agents
+If you are using a different server-side language, we recommend integrating a language-specific passkey/FIDO2/WebAuthn library and providing a matching skill to guide your agent. We encourage library authors to write and distribute skills for their libraries so coding agents can always use the latest APIs correctly.
 
-These skills have been tested and verified to work well with:
-- Antigravity + Gemini 3.1 Pro
-- Antigravity + Opus 4.6
-- Claude Code + Opus 4.6
+## What is Not Covered by These Skills
 
-## Disclaimer
+These skills focus on standard passkey operations. They do not cover features that heavily depend on your application's specific business logic, such as:
+* Identity verification prior to passkey creation.
+* Sending security notifications (e.g., emails) upon passkey registration.
+* Promoting passkeys after a password login (including cross-device flows).
+* Signaling username and display name updates to the password manager.
 
-This skill set is designed to help AI coding agents implement passkeys that align with Google's best practices, reducing your development workload. However, it does not provide an exhaustive implementation of every security guideline. When deploying passkeys in a production environment, please thoroughly review [Google's passkey best practices](https://web.dev/articles/passkey-checklist) and ensure your application meets all necessary security standards.
+## Give Us Your Feedback
+
+Modern Web Guidance and the passkey skills are currently in preview. If you have feedback, bug reports, or feature requests, please submit them to the [modern-web-guidance-src repository issues](https://github.com/GoogleChrome/modern-web-guidance-src/issues).
 
 ## License
 
-This project is licensed under the Apache 2.0 License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache 2.0 License. See the [LICENSE](LICENSE) file for details.
