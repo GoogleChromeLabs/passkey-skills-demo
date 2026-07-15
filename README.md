@@ -41,7 +41,7 @@ Follow these steps to set up the demo environment and test the passkey agent ski
 First, clone this repository and install the dependencies:
 
 ```bash
-git clone git@github.com:agektmr/passkey-skills-demo.git
+git clone git@github.com:GoogleChromeLabs/passkey-skills-demo.git
 cd passkey-skills-demo
 npm install
 ```
@@ -95,13 +95,11 @@ To verify that the agent's implementation aligns with all best practices, prompt
 
 ---
 
-## Server-Side Libraries and Skills
+## Integrate server-side
 
-This repository includes a specialized skill for **SimpleWebAuthn** (located in `.agents/skills/simplewebauthn`), the recommended library for implementing passkeys in Node.js/TypeScript. 
+While coding agents can generate server-side passkey code, they might not use the latest library versions. The passkey skills demo repository includes the `simplewebauthn` skill, which is a skill for the recommended server-side library for JavaScript and TypeScript—[SimpleWebAuthn](https://simplewebauthn.dev/). This skill complements the coding agent's behavior.
 
-AI coding agents often struggle to use the latest APIs of `@simplewebauthn/server`. This skill guides the agent to use correct, modern SimpleWebAuthn library APIs.
-
-If you are using a different server-side language, we recommend integrating a language-specific passkey/FIDO2/WebAuthn library and providing a matching skill to guide your agent. We encourage library authors to write and distribute skills for their libraries so coding agents can always use the latest APIs correctly.
+For other server-side programming languages, Google recommends integrating passkeys with a language-specific passkey, FIDO2, or WebAuthn library, along with a skill to use its latest APIs. Library authors write their own skills so that coding agents can always use the latest APIs.
 
 ## What is Not Covered by These Skills
 
